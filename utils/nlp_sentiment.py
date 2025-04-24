@@ -9,7 +9,16 @@ def fetch_news_headlines(ticker):
     return headlines
 
 def analyze_sentiment(headlines):
-    classifier = pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
+    classifier = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
     results = classifier(headlines)
-    scores = [res['label'] for res in results]
-    return scores, headlines
+    
+    sentiment_scores = []
+    labels = []
+    
+    for result in results:
+        label = result['label']
+        score = result['score']
+        labels.append(label)
+        sentiment_scores.append(score if label == 'POSITIVE' else -score)
+
+    return sentiment_scores, labels
