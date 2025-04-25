@@ -1,12 +1,12 @@
 import streamlit as st
 from predict import predict_next_day_close
 from utils.visualization import plot_technical_indicators
-from utils.nlp_sentiment import fetch_news_headlines, analyze_sentiment
+from utils.nlp_sentiment import analyze_sentiment
 
 st.set_page_config(layout="wide", page_title="AI Stock Predictor")
 
 st.title("📈 AI-Powered Stock Price Predictor")
-ticker = st.text_input("Enter Ticker (e.g. AAPL)", "AAPL")
+ticker = st.text_input("Enter Ticker (e.g. AAPL)", "TSLA", "AAPL")
 
 if st.button("Run Prediction"):
     with st.spinner("Fetching Data & Predicting..."):
@@ -17,7 +17,6 @@ if st.button("Run Prediction"):
         plot_technical_indicators(df)
 
         st.subheader("📰 News Sentiment Analysis")
-        headlines = fetch_news_headlines(ticker)
         sentiments, _ = analyze_sentiment(headlines)
 
         sentiment_score = sum([int(s[0]) for s in sentiments if s[0].isdigit()]) / len(sentiments)
