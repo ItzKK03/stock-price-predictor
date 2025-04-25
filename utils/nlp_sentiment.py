@@ -1,18 +1,20 @@
+# utils/nlp_sentiment.py
+
 from textblob import TextBlob
 
 def analyze_sentiment(headlines):
-    sentiment_scores = []
+    sentiments = []
     labels = []
-
-    for headline in headlines:
-        blob = TextBlob(headline)
-        score = blob.sentiment.polarity
-        sentiment_scores.append(score)
-        if score > 0.1:
-            labels.append("POSITIVE")
-        elif score < -0.1:
-            labels.append("NEGATIVE")
+    
+    for text in headlines:
+        blob = TextBlob(text)
+        polarity = blob.sentiment.polarity
+        sentiments.append(polarity)
+        if polarity > 0.1:
+            labels.append("Positive")
+        elif polarity < -0.1:
+            labels.append("Negative")
         else:
-            labels.append("NEUTRAL")
-
-    return sentiment_scores, labels
+            labels.append("Neutral")
+    
+    return sentiments, labels
